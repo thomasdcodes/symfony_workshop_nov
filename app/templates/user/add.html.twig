@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<form action="{{ path('app.user.submit') }}" method="post">
+    Email: <input type="text" name="email" />
+    <br>
+    <input type="submit" value="Speichern" />
+</form>
+{% endblock %}
