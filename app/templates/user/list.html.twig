@@ -2,7 +2,7 @@
 
 {% block body %}
     {% for user in users %}
-        <p>{{ loop.index }}. {{ user|upper|raw }}</p>
+        <p>{{ loop.index }}. {{ user.email}}</p>
     {% else %}
         <p>Es gibt noch keine Benutzer</p>
     {% endfor %}

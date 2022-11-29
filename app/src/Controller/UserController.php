@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/admin')]
 class UserController extends AbstractController
 {
     #[Route(
@@ -18,27 +21,20 @@ class UserController extends AbstractController
         name: 'app.user.list',
         methods: ['GET']
     )]
-    public function list(): Response
+    public function list(UserRepository $userRepository): Response
     {
-        $users = [
-            '<h5>Thomas</h5>',
-            '<h3>Michael</h3>',
-            'Nelson',
-        ];
-
         return $this->render('user/list.html.twig', [
-            'users' => $users,
+            'users' => $userRepository->findAll(),
         ]);
     }
 
-    #[Route(
-        path: '/user/add',
-        name: 'app.user.add',
-        methods: ['GET']
-    )]
+    #[Route(path: '/user/add',name: 'app.user.add',methods: ['GET'])]
     public function add(): Response
     {
-        return $this->render('user/add.html.twig');
+        $form = $this->createForm(UserType::class);
+        return $this->render('user/add.html.twig', [
+            'userForm' => $form->createView(),
+        ]);
     }
 
     #[Route(
