@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if name is defined %}
+        <h2>Hello {{ dump(name) }}</h2>
+    {% else %}
+        <h2>Hello World!</h2>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for user in users %}
+        <p>{{ loop.index }}. {{ user|upper|raw }}</p>
+    {% else %}
+        <p>Es gibt noch keine Benutzer</p>
+    {% endfor %}
+{% endblock %}
