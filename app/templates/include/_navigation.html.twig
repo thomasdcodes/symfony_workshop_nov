@@ -9,5 +9,9 @@
         <li>
             <a href="{{ path('app.user.add') }}">Benutzer anlegen</a>
         </li>
+        <li>
+            <a href="{{ path('app.languageSwitch.switchLanguage', {targetLanguage: 'de'}) }}">DE</a> |
+            <a href="{{ path('app.languageSwitch.switchLanguage', {targetLanguage: 'en'}) }}">EN</a>
+        </li>
     </ul>
 </div>

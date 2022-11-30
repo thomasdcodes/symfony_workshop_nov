@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -17,7 +18,10 @@ class KernelSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        $event->getRequest()->setDefaultLocale('fr');
-        echo '';
+        $session = $event->getRequest()->getSession();
+        $userChosenLanguage = $session->get('userChosenLanguage');
+        if ($userChosenLanguage) {
+            $event->getRequest()->setLocale($userChosenLanguage);
+        }
     }
 }
