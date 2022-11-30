@@ -1,0 +1,7 @@
+Password: Passwort
+
+user:
+  add:
+    headline: Benutzer anlegen
+    form:
+      submit: Speichern

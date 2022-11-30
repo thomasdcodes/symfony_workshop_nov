@@ -1,0 +1,4 @@
+entity:
+  user:
+    password:
+      error: Es muss ein Passwort gesetzt werden

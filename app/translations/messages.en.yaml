@@ -1,0 +1,6 @@
+user:
+  add:
+    headline: User add
+    form:
+      submit: Save
+      password: Password

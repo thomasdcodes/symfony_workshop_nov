@@ -28,36 +28,27 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/user/add',name: 'app.user.add',methods: ['GET'])]
-    public function add(): Response
+    #[Route(path: '/user/add', name: 'app.user.add', methods: ['GET', 'POST'])]
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UserType::class);
-        return $this->render('user/add.html.twig', [
-            'userForm' => $form->createView(),
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->persist($user);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Fehler bei der Datenbank');
+            }
+
+            return $this->redirectToRoute('app.user.list');
+        }
+
+        return $this->renderForm('user/add.html.twig', [
+            'userForm' => $form,
         ]);
-    }
-
-    #[Route(
-        path: '/user/submit',
-        name: 'app.user.submit',
-        methods: ['POST']
-    )]
-    public function submit(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        //Verarbeite POST
-        $email = $request->request->get('email');
-
-        $user = (new User())->setEmail($email);
-        //Initialisiere Model und befülle es mit Daten
-
-
-        //speicher das Model/Entity
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        //Wenn erfolgreich redirect an Liste
-
-        //Wenn nicht
-        return $this->redirectToRoute('app.user.add');
     }
 }
