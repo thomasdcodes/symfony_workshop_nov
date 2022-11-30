@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TimeEntryController!{% endblock %}
+
+{% block body %}
+    <h2>Zeiteinträge</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Startzeit</th>
+                <th>Endzeit</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for timeEntry in timeEntries %}
+                <tr>
+                    <td>{{ timeEntry.startDateTime|date("d.m.Y - H:i") }}</td>
+                    <td>{{ timeEntry.endDateTime|date("d.m.Y - H:i") }}</td>
+                    <td>Edit | Löschen</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
