@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TimeEntry;
 use App\Form\TimeEntryType;
 use App\Repository\TimeEntryRepository;
+use App\Security\Voter\TimeEntryVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,8 +42,48 @@ class TimeEntryController extends AbstractController
             return $this->redirectToRoute('app.timeEntry.list');
         }
 
-        return $this->renderForm('time_entry/add.html.twig', [
+        return $this->renderForm('time_entry/form.html.twig', [
             'timeEntryForm' => $form,
         ]);
+    }
+
+    #[Route('/timeentry/edit/{id}', name: 'app.timeEntry.edit')]
+    public function edit(int $id, Request $request): Response
+    {
+        $timeEntry = $this->timeEntryRepository->find($id);
+        if (!$timeEntry instanceof TimeEntry) {
+            return new Response('Kein TimeEntry-Eintrag gefunden', 404);
+        }
+
+        $this->denyAccessUnlessGranted(TimeEntryVoter::EDIT, $timeEntry);
+
+        $form = $this->createForm(TimeEntryType::class, $timeEntry);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->timeEntryRepository->save($timeEntry, true);
+
+            $this->addFlash('success', 'Zeiteintrag editiert');
+
+            return $this->redirectToRoute('app.timeEntry.list');
+        }
+
+        return $this->renderForm('time_entry/form.html.twig', [
+            'timeEntryForm' => $form,
+        ]);
+    }
+
+    #[Route('/timeentry/delete/{id}', name: 'app.timeEntry.delete')]
+    public function delete(int $id): Response
+    {
+        $timeEntry = $this->timeEntryRepository->find($id);
+        if (!$timeEntry instanceof TimeEntry) {
+            return new Response('Kein TimeEntry-Eintrag gefunden', 404);
+        }
+
+        $this->timeEntryRepository->remove($timeEntry, true);
+        $this->addFlash('success', 'Zeiteintrag gelöscht');
+        return $this->redirectToRoute('app.timeEntry.list');
     }
 }
