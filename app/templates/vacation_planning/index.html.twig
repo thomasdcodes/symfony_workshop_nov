@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VacationPlanning index{% endblock %}
+
+{% block body %}
+    <h1>VacationPlanning index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vacation_planning in vacation_plannings %}
+            <tr>
+                <td>{{ vacation_planning.id }}</td>
+                <td>{{ vacation_planning.startDate ? vacation_planning.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ vacation_planning.endDate ? vacation_planning.endDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_vacation_planning_show', {'id': vacation_planning.id}) }}">show</a>
+                    <a href="{{ path('app_vacation_planning_edit', {'id': vacation_planning.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_vacation_planning_new') }}">Create new</a>
+{% endblock %}

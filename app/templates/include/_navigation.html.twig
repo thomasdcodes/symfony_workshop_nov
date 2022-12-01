@@ -10,6 +10,9 @@
             <li>
                 <a href="{{ path('app.timeEntry.add') }}">Zeiteintrag hinzufügen</a>
             </li>
+            <li>
+                <a href="{{ path('app_vacation_planning_index') }}">Urlaubsanträge</a>
+            </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li>
                     <a href="{{ path('app.user.list') }}">Benutzer anzeigen</a>
