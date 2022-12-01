@@ -24,6 +24,9 @@ class TimeEntry
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $workingTime = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class TimeEntry
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getWorkingTime(): ?string
+    {
+        return $this->workingTime;
+    }
+
+    public function setWorkingTime(?string $workingTime): self
+    {
+        $this->workingTime = $workingTime;
 
         return $this;
     }

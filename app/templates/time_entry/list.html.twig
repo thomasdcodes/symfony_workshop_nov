@@ -17,6 +17,7 @@
                 <tr>
                     <td>{{ timeEntry.startDateTime|date("d.m.Y - H:i") }}</td>
                     <td>{{ timeEntry.endDateTime|date("d.m.Y - H:i") }}</td>
+                    <td>{{ timeEntry.workingTime }}</td>
                     <td>
                         <a href="{{ path('app.timeEntry.edit', {'id': timeEntry.id }) }}">Edit</a> |
                         <a href="{{ path('app.timeEntry.delete', {'id': timeEntry.id }) }}" onclick="return confirm('Soll der Eintrag wirklich gelöscht werden')">Löschen</a>

@@ -46,7 +46,7 @@ class UserController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Fehler bei der Datenbank');
+                $this->addFlash('danger', 'Fehler bei der Datenbank');
             }
 
             return $this->redirectToRoute('app.user.list');
