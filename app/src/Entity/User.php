@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -15,13 +16,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_user'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
+    #[Groups(['api_user'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['api_user'])]
     private array $roles = [];
 
     #[ORM\Column]
@@ -29,9 +33,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column()]
+    #[Groups(['api_user'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column()]
+    #[Groups(['api_user'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
